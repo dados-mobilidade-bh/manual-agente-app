@@ -19,7 +19,10 @@ authenticator = stauth.Authenticate(
 )
 
 # LOGIN
-name, authentication_status, username = authenticator.login("main", "Login")
+authentication_status, username = authenticator.login("main", "Login")
+
+if authentication_status:
+    name = config['credentials']['usernames'][username]['name']
 
 # LOGIN INVÁLIDO
 if authentication_status == False:
