@@ -1,0 +1,13 @@
+credentials:
+  usernames:
+    daniel.mnogueira:
+      name: Daniel Nogueira
+      password: "$2b$12$Xrk6q0KyqJRUldVTKn3nJeoVAdFtxeEUa0Thk7eVRY1QhVAXXiSka"
+    lucascolen:
+      name: Lucas Colen
+      password: "$2b$12$UMWDnJeQwFivYF3LgUoeiOTW5H0jflMHPSmLMlWdKnWSH/riCSpKy"
+
+cookie:
+  name: manual_app
+  key: some_cookie_key
+  expiry_days: 30
