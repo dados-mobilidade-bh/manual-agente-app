@@ -62,6 +62,9 @@ if st.session_state["tela"] == "inicial":
             st.session_state["tela"] = "infracoes"
             st.rerun()
 
+    st.markdown("---")
+    st.markdown("📄 [Clique aqui para baixar o Manual Completo](https://github.com/seu_usuario/seu_repositorio/raw/main/manual_completo.pdf)", unsafe_allow_html=True)
+
 elif st.session_state["tela"] == "siglas":
     tela_siglas()
 
