@@ -1,3 +1,5 @@
 streamlit
 pandas
-openpyxl  # Necessário para ler arquivos .xlsx
+openpyxl
+streamlit-authenticator
+PyYAML
