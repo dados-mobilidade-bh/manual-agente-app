@@ -63,7 +63,7 @@ if st.session_state["tela"] == "inicial":
             st.rerun()
 
     st.markdown("---")
-    st.markdown("📄 [Clique aqui para baixar o Manual Completo](https://github.com/seu_usuario/seu_repositorio/raw/main/manual_completo.pdf)", unsafe_allow_html=True)
+    st.markdown("📄 [Clique aqui para baixar o Manual Completo](https://drive.google.com/uc?export=download&id=1KeeASS6mdiHzDzk2gZwS2d7XTZbDk36m)", unsafe_allow_html=True)
 
 elif st.session_state["tela"] == "siglas":
     tela_siglas()
