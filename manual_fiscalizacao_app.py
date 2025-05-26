@@ -29,30 +29,61 @@ def tela_conceitos():
 
 def tela_infracoes():
     st.markdown("## Consulta de Infrações")
-    palavra = st.text_input("🔍 Assunto da Infração", placeholder="Digite uma palavra relacionada à infração (ex: estacionar)")
 
-    if palavra:
-        # Filtra pela coluna de PALAVRAS_CHAVE
-        resultados = df_infracoes[df_infracoes["PALAVRAS_CHAVE"].str.contains(palavra, case=False, na=False)]
+    # Entrada da palavra-chave
+    palavra = st.text_input(
+        "🔍 Assunto da Infração",
+        placeholder="Digite uma palavra relacionada à infração (ex: estacionar)"
+    )
+
+    # Botão de busca
+    if st.button("🔍 Buscar Infração"):
+        st.session_state["palavra_busca"] = palavra
+        st.session_state["buscar"] = True
+        st.session_state["mostrar_detalhes"] = False
+        st.rerun()
+
+    # Executa busca se a flag estiver ativada
+    if st.session_state.get("buscar") and st.session_state.get("palavra_busca"):
+        palavra_busca = st.session_state["palavra_busca"]
+        resultados = df_infracoes[df_infracoes["PALAVRAS_CHAVE"].str.contains(palavra_busca, case=False, na=False)]
+
         if not resultados.empty:
-            opcao = st.selectbox("Selecione uma infração para visualizar os detalhes e clique em consultar", resultados["INFRACAO"].tolist())
+            # Exibe a lista de opções
+            opcao = st.selectbox(
+                "Selecione uma infração para visualizar os detalhes e clique em consultar",
+                resultados["INFRACAO"].tolist()
+            )
+            st.session_state["resultados"] = resultados
+            st.session_state["opcao_selecionada"] = opcao
+
             if st.button("Consultar"):
-                st.markdown("### Detalhes da Infração")
-                linha = resultados[resultados["INFRACAO"] == opcao].iloc[0]
-                for col in resultados.columns:
-                    st.markdown(f"**{col}:** {linha[col]}")
-                st.markdown("---")
-                if st.button("🔁 Realizar Nova Consulta"):
-                    st.rerun()
+                st.session_state["mostrar_detalhes"] = True
+                st.rerun()
         else:
             st.warning("Nenhuma infração encontrada com essa palavra.")
+            st.session_state["buscar"] = False
 
-    if st.button("📘 Consultar Siglas"):
-        st.session_state["tela"] = "siglas"
-        st.rerun()
+    # Exibe os detalhes se solicitado
+    if st.session_state.get("mostrar_detalhes"):
+        resultados = st.session_state.get("resultados")
+        opcao = st.session_state.get("opcao_selecionada")
+
+        if resultados is not None and opcao is not None:
+            linha = resultados[resultados["INFRACAO"] == opcao].iloc[0]
+            st.markdown("### Detalhes da Infração")
+            for col in resultados.columns:
+                st.markdown(f"**{col}:** {linha[col]}")
+            st.markdown("---")
+            if st.button("🔁 Realizar Nova Consulta"):
+                for chave in ["buscar", "palavra_busca", "mostrar_detalhes", "resultados", "opcao_selecionada"]:
+                    st.session_state.pop(chave, None)
+                st.rerun()
 
     if st.button("⬅ Voltar"):
         st.session_state["tela"] = "inicial"
+        for chave in ["buscar", "palavra_busca", "mostrar_detalhes", "resultados", "opcao_selecionada"]:
+            st.session_state.pop(chave, None)
         st.rerun()
 
 # --- LÓGICA DE NAVEGAÇÃO ---
@@ -61,17 +92,18 @@ if "tela" not in st.session_state:
 
 if st.session_state["tela"] == "inicial":
     mostrar_capa()
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns([1, 1, 1])
+
     with col1:
-        if st.button("📘 CONSULTAR SIGLAS"):
-            st.session_state["tela"] = "siglas"
-            st.rerun()
-    with col2:
         if st.button("🚨 CONSULTAR INFRAÇÕES"):
             st.session_state["tela"] = "infracoes"
             st.rerun()
-    
-    col3, col4 = st.columns(2)
+
+    with col2:
+        if st.button("📘 CONSULTAR SIGLAS"):
+            st.session_state["tela"] = "siglas"
+            st.rerun()
+
     with col3:
         if st.button("📚 CONSULTAR CONCEITOS"):
             st.session_state["tela"] = "conceitos"
