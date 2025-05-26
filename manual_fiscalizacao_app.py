@@ -5,7 +5,7 @@ import pandas as pd
 st.set_page_config(page_title="Consulta de Infrações", layout="centered")
 
 # --- CARREGAMENTO DE DADOS ---
-df_siglas = pd.read_csv("Tabela_de_Siglas_e_Significados.csv", sep=",", encoding="latin-1")
+df_siglas = pd.read_csv("Tabela_de_Siglas_e_Significados.csv", sep=";", encoding="latin-1")
 df_infracoes = pd.read_csv("Descricao_Infracoes.csv", sep=";", encoding="latin-1")
 df_conceitos = pd.read_csv("Tabela_de_Conceitos_e_Definicoes.csv",  sep=";", encoding="latin-1")
 
