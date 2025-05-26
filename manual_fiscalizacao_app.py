@@ -5,8 +5,9 @@ import pandas as pd
 st.set_page_config(page_title="Consulta de Infrações", layout="centered")
 
 # --- CARREGAMENTO DE DADOS ---
-df_siglas = pd.read_csv("Tabela_de_Siglas_e_Significados.csv", sep=",")
-df_infracoes = pd.read_excel("Exemplo_Infrações.xlsx")
+df_siglas = pd.read_csv("Tabela_de_Siglas_e_Significados.csv", sep=",", encoding="latin-1")
+df_infracoes = pd.read_csv("Descricao_Infracoes.csv", sep=";", encoding="latin-1")
+df_conceitos = pd.read_csv("Tabela_de_Conceitos_e_Definicoes.csv",  sep=";", encoding="latin-1")
 
 # --- FUNÇÕES ---
 def mostrar_capa():
@@ -19,17 +20,25 @@ def tela_siglas():
         st.session_state["tela"] = "inicial"
         st.rerun()
 
+def tela_conceitos():
+    st.markdown("## Tabela de Conceitos e Definições")
+    st.dataframe(df_conceitos, use_container_width=True)
+    if st.button("⬅ Voltar"):
+        st.session_state["tela"] = "inicial"
+        st.rerun()
+
 def tela_infracoes():
     st.markdown("## Consulta de Infrações")
-    palavra = st.text_input("🔍 Assunto da Infração", placeholder="Digite uma palavra relacionada a infração (ex: estacionar)")
+    palavra = st.text_input("🔍 Assunto da Infração", placeholder="Digite uma palavra relacionada à infração (ex: estacionar)")
 
     if palavra:
-        resultados = df_infracoes[df_infracoes["Infração"].str.contains(palavra, case=False, na=False)]
+        # Filtra pela coluna de PALAVRAS_CHAVE
+        resultados = df_infracoes[df_infracoes["PALAVRAS_CHAVE"].str.contains(palavra, case=False, na=False)]
         if not resultados.empty:
-            opcao = st.selectbox("Selecione uma infração para visualizar os detalhes e clique em consultar", resultados["Infração"].tolist())
+            opcao = st.selectbox("Selecione uma infração para visualizar os detalhes e clique em consultar", resultados["INFRACAO"].tolist())
             if st.button("Consultar"):
                 st.markdown("### Detalhes da Infração")
-                linha = resultados[resultados["Infração"] == opcao].iloc[0]
+                linha = resultados[resultados["INFRACAO"] == opcao].iloc[0]
                 for col in resultados.columns:
                     st.markdown(f"**{col}:** {linha[col]}")
                 st.markdown("---")
