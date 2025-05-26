@@ -70,6 +70,12 @@ if st.session_state["tela"] == "inicial":
         if st.button("🚨 CONSULTAR INFRAÇÕES"):
             st.session_state["tela"] = "infracoes"
             st.rerun()
+    
+    col3, col4 = st.columns(2)
+    with col3:
+        if st.button("📚 CONSULTAR CONCEITOS"):
+            st.session_state["tela"] = "conceitos"
+            st.rerun()
 
     st.markdown("---")
     st.markdown("📄 [Clique aqui para baixar o Manual Completo](https://drive.google.com/uc?export=download&id=1KeeASS6mdiHzDzk2gZwS2d7XTZbDk36m)", unsafe_allow_html=True)
@@ -79,3 +85,6 @@ elif st.session_state["tela"] == "siglas":
 
 elif st.session_state["tela"] == "infracoes":
     tela_infracoes()
+
+elif st.session_state["tela"] == "conceitos":
+    tela_conceitos()
