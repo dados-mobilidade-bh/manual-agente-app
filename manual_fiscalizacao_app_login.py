@@ -3,10 +3,10 @@ import pandas as pd
 
 # Simulação da tabela de usuários (versão simples sem hash)
 df_usuarios = pd.DataFrame({
-    "USUARIO": ["Daniel Nogueira", "Maria Lima"],
-    "MATRICULA": ["bt001999", "654321"],
-    "EMAIL": ["daniel.mnogueira@pbh.gov.br", "maria@exemplo.com"],
-    "SENHA": ["Bh.151122", "senha456"]
+    "USUARIO": ["Daniel Nogueira", "Agente Bhtrans"],
+    "MATRICULA": ["bt001999", "bt9999"],
+    "EMAIL": ["daniel.mnogueira@pbh.gov.br", "agente.bhtrans@pbh.gov.br"],
+    "SENHA": ["Bh.151122", "123456"]
 })
 
 # Função de login simples
